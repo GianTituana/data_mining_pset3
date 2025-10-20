@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  pyspark-notebook:
+    image: jupyter/pyspark-notebook:latest
+    container_name: pyspark-notebook
+    ports:
+      - "8888:8888"    # Acceso a Jupyter Notebook
+      - "4040:4040"    # Spark UI (al ejecutar un job)
+    volumes:
+      - ./work:/home/jovyan/work    # Carpeta local para notebooks
+    env_file:
+      - .env       # Carga variables desde el archivo .env
+    environment:
+      - SPARK_LOCAL_IP=0.0.0.0
+      - PYSPARK_PYTHON=python
+      - SPARK_MASTER_HOST=localhost
+    user: root
+    command: start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''
